@@ -100,7 +100,7 @@ namespace Konvolucio.MJBL180509
                     var row = _importer.RowCount;
                     var column = _importer.ColumCount;
                     _mainForm.MainView.Update(table, row, column);
-                    _mainForm.LastModified =  string.Format(AppConstants.GenericTimestampFormat, File.GetLastWriteTime(path));
+                    _mainForm.LastModified = File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
                     _mainForm.RowCoulmn = row.ToString() + "/" + column.ToString();
                 };
 
