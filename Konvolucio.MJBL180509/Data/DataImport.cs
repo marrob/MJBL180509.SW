@@ -21,6 +21,11 @@ namespace Konvolucio.MJBL180509.Data
         //const int MaxTableRowsCount = 500;
         //const int MaxTableCoulmsCount = 500;
 
+        public string[,] Table { get { return _table; } }
+        public int RowsCount { get; private set; }
+        public int ColumsCount { get; private set; }
+
+        private readonly string[,] _table = new string[MaxTableRowsCount, MaxTableCoulmsCount];
 
         enum LineParseStates
         {
@@ -48,8 +53,6 @@ namespace Konvolucio.MJBL180509.Data
             var stopwatch = new Stopwatch();
             stopwatch.Restart();
 #endif
-            string[,] _table = new string[MaxTableRowsCount, MaxTableCoulmsCount];
-
             var lines = Read(path);
             var coulmnsCount = 0;
 
@@ -103,7 +106,8 @@ namespace Konvolucio.MJBL180509.Data
             stopwatch.Stop();
             Debug.WriteLine("CsvImport-> Elapsed Time:" + stopwatch.ElapsedMilliseconds.ToString() + "ms");
 #endif
-
+            RowsCount = lines.Count;
+            ColumsCount = coulmnsCount;
             return (ConvertToDataTable(_table, lines.Count, coulmnsCount));
         }
 

@@ -12,10 +12,10 @@ namespace Konvolucio.MJBL180509.Controls
     {
 
         #region Events Overrides
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            PaintHandlerForBackgoroundText(e);
-        }
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    PaintHandlerForBackgoroundText(e);
+        //}
         #endregion
 
         #region Background Text

@@ -93,7 +93,10 @@ namespace Konvolucio.MJBL180509
                     _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
                     _fileWatcher.Changed += FileWatcher_Changed;
                     _fileWatcher.EnableRaisingEvents = true;
-                    _mainForm.MainView.Table = _importer.CsvImport(path);
+                    _importer.CsvImport(path);
+                    _mainForm.MainView.Table = _importer.Table;
+                    _mainForm.MainView.RowCount = _importer.RowsCount;
+                    _mainForm.MainView.CoulumnCount = _importer.ColumsCount;
 
 #if DEBUG
                     stopwatch.Stop();
@@ -112,7 +115,7 @@ namespace Konvolucio.MJBL180509
             {
                 Action doMehtod = () =>
                 {
-                    _mainForm.MainView.Table = _importer.CsvImport(path);
+                    /*_mainForm.MainView.Table = _importer.CsvImport(path);*/
                 };
 
                 if (SyncContext != null)

@@ -51,6 +51,8 @@
             this.knvDataGridView1.ShowRowErrors = false;
             this.knvDataGridView1.Size = new System.Drawing.Size(674, 303);
             this.knvDataGridView1.TabIndex = 0;
+            this.knvDataGridView1.VirtualMode = true;
+            this.knvDataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.knvDataGridView1_CellValueNeeded);
             this.knvDataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.knvDataGridView1_DataBindingComplete);
             // 
             // MainViewControl
