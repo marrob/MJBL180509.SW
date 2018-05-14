@@ -27,7 +27,7 @@
 
             var import = new DataImporter() ;
 
-            DataTable dt = import.CsvImport(path);
+
         }
 
         [Test, Order(1)]

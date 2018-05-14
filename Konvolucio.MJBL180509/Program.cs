@@ -13,9 +13,6 @@ namespace Konvolucio.MJBL180509
 
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -32,21 +29,16 @@ namespace Konvolucio.MJBL180509
             Data.DataImporter _importer = new Data.DataImporter();
             SynchronizationContext SyncContext;
 
-            /// <summary>
-            /// Constructor
-            /// </summary>
             public App()
             {
                 _mainForm.FileOpen += MainForm_FileOpen;
                 _mainForm.Shown += MainForm_Shown;
                 _mainForm.Version = Application.ProductVersion;
+                _mainForm.Text = AppConstants.SoftwareTitle;
 
                 Application.Run( (MainForm) _mainForm);
             }
 
-            /// <summary>
-            /// Main Window is Shown
-            /// </summary>
             private void MainForm_Shown(object sender, EventArgs e)
             {
                 SyncContext = SynchronizationContext.Current;
@@ -55,19 +47,12 @@ namespace Konvolucio.MJBL180509
                     FileOpen(arg[1]);
             }
 
-            /// <summary>
-            /// File Opened form menu
-            /// </summary>
             private void MainForm_FileOpen(object sender, string[] e)
             {
                 if (e.Length != 0)
                     FileOpen(e[0]);
             }
 
-            /// <summary>
-            /// File Opne
-            /// </summary>
-            /// <param name="path"></param>
             private void FileOpen(string path)
             {
 
@@ -76,10 +61,9 @@ namespace Konvolucio.MJBL180509
                 string dir = Path.GetDirectoryName(path);
                 if (ext == ".mes" ||  ext == ".typ" || ext == ".csv")
                 {
-#if DEBUG
                     var stopwatch = new Stopwatch();
                     stopwatch.Restart();
-#endif
+
                     if (_fileWatcher != null)
                     {
                         _fileWatcher.Changed -= FileWatcher_Changed;
@@ -87,52 +71,47 @@ namespace Konvolucio.MJBL180509
                         _fileWatcher = null;
                     }
 
+                    _mainForm.StatusClear();
                     _fileWatcher = new FileSystemWatcher();
                     _fileWatcher.Path = dir;
                     _fileWatcher.Filter = name;
+                    _mainForm.Text = name +" - " + AppConstants.SoftwareTitle;
                     _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
                     _fileWatcher.Changed += FileWatcher_Changed;
                     _fileWatcher.EnableRaisingEvents = true;
-                    _importer.CsvImport(path);
-                    _mainForm.MainView.Table = _importer.Table;
-                    _mainForm.MainView.RowCount = _importer.RowsCount;
-                    _mainForm.MainView.CoulumnCount = _importer.ColumsCount;
-
-#if DEBUG
+                  
+                    var table = _importer.CsvImport(path);
+                    var row = _importer.RowCount;
+                    var column = _importer.ColumCount;
+                    _mainForm.MainView.Update(table, row, column);
                     stopwatch.Stop();
-                    Debug.WriteLine("View-> Elapsed Time:" + stopwatch.ElapsedMilliseconds.ToString() + "ms");
-#endif
-                    _mainForm.Text = name;
+
+                    _mainForm.LoadTime = _importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
+                    _mainForm.LastModified = File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
+                    _mainForm.RowCoulmn = row.ToString() + "/" + column.ToString();
                 }
             }
 
-
-            /// <summary>
-            /// UpdateOpened File
-            /// </summary>
-            /// <param name="path"></param>
             void UpdateOpenedFile(string path)
             {
                 Action doMehtod = () =>
                 {
-                    /*_mainForm.MainView.Table = _importer.CsvImport(path);*/
+                    var table = _importer.CsvImport(path);
+                    var row = _importer.RowCount;
+                    var column = _importer.ColumCount;
+                    _mainForm.MainView.Update(table, row, column);
+                    _mainForm.LastModified =  string.Format(AppConstants.GenericTimestampFormat, File.GetLastWriteTime(path));
+                    _mainForm.RowCoulmn = row.ToString() + "/" + column.ToString();
                 };
 
                 if (SyncContext != null)
                     SyncContext.Post((e1) => { doMehtod(); }, null);
                 else
                     doMehtod();
-
             }
 
-            /// <summary>
-            /// Opened file content changed
-            /// </summary>
             private void FileWatcher_Changed(object sender, FileSystemEventArgs e)
-            {
-#if DEBUG
-                Debug.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
-#endif             
+            {      
                 UpdateOpenedFile(e.FullPath);
             }
         }

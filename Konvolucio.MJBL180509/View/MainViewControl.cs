@@ -1,7 +1,6 @@
 ﻿
 namespace Konvolucio.MJBL180509
 {
-
     using System;
     using System.Data;
     using System.Windows.Forms;
@@ -9,61 +8,49 @@ namespace Konvolucio.MJBL180509
 
     public interface IMainViewControl
     {
-
-        int RowCount { get; set; }
-        int CoulumnCount { get; set; }
-        string[,] Table { get; set; }
+        void Update(string[,] table, int row, int column);
     }
-
 
     public partial class MainViewControl : UserControl, IMainViewControl
     {
+        string[,] _table;
 
-        public int RowCount
+        public void Update(string[,] table, int row, int column)
         {
-            get
-            {
-                return knvDataGridView1.RowCount;
-            }
+            knvDataGridView1.SuspendLayout();
+            knvDataGridView1.Hide();
 
-            set
-            {
-                knvDataGridView1.RowCount = value;
-            }
+            knvDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            knvDataGridView1.ColumnHeadersVisible = false;
+
+            _table = table;
+            knvDataGridView1.ColumnCount = column;
+            knvDataGridView1.RowCount = row;
+            knvDataGridView1.RowHeadersWidth = 40;
+
+            for (int i = 0; i < knvDataGridView1.ColumnCount; i++)
+                knvDataGridView1.Columns[i].HeaderCell.Value = i.ToString();
+
+            knvDataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            foreach (DataGridViewColumn dgvcolumn in knvDataGridView1.Columns)
+                dgvcolumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            knvDataGridView1.ColumnHeadersVisible = true;
+
+            knvDataGridView1.Show();
+            knvDataGridView1.ResumeLayout();
         }
 
-        public int CoulumnCount
-        {
-            get => knvDataGridView1.ColumnCount;
-            set => knvDataGridView1.ColumnCount = value;
-        }
-
-        public string[,] Table { get; set; }
-
-        /// <summary>
-        /// Konstructor
-        /// </summary>
         public MainViewControl()
         {
             InitializeComponent();
-            //knvDataGridView1.KnvDoubleBuffered(true);
-            //knvDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-
-        private void knvDataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            //knvDataGridView1.RowHeadersWidth = 80;
-
-            //for (int row = 0; row < knvDataGridView1.RowCount; row++)
-            //    knvDataGridView1.Rows[row].HeaderCell.Value = row.ToString();
-
-            //foreach (DataGridViewColumn column in knvDataGridView1.Columns)
-            //    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            knvDataGridView1.KnvDoubleBuffered(true);
         }
 
         private void knvDataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
-            e.Value = Table[e.RowIndex, e.ColumnIndex];
+            e.Value = _table[e.RowIndex, e.ColumnIndex];
         }
     }
 }

@@ -29,6 +29,10 @@ namespace Konvolucio.MJBL180509
         //void ProgressBarUpdate(ProgressChangedEventArgs arg);
         //void Close();
         string Version { get; set; }
+        string LastModified { get; set; }
+        string LoadTime { get; set; }
+        string RowCoulmn { get; set; }
+        void StatusClear();
 
         IMainViewControl MainView { get; }
 
@@ -41,6 +45,7 @@ namespace Konvolucio.MJBL180509
     public partial class MainForm : Form, IMainForm
     {
         public event EventHandler<string[]> FileOpen;
+
         public IMainViewControl MainView { get { return mainViewControl1; } }
 
         public string Version
@@ -49,9 +54,31 @@ namespace Konvolucio.MJBL180509
             set { toolStripStatusLabelVersion.Text = value; }
         }
 
-        /// <summary>
-        /// Konstructor
-        /// </summary>
+        public string LastModified
+        {
+            get { return toolStripStatusLabelLastModify.Text; }
+            set { toolStripStatusLabelLastModify.Text = value; }
+        }
+
+        public string LoadTime
+        {
+            get { return toolStripStatusLoadTime.Text; }
+            set { toolStripStatusLoadTime.Text = value; }
+        }
+
+        public string RowCoulmn
+        {
+            get { return toolStripStatusLabelRowColumn.Text; }
+            set { toolStripStatusLabelRowColumn.Text = value; }
+        }
+
+        public void StatusClear()
+        {
+            LastModified = "-";
+            LoadTime = "-";
+            RowCoulmn = "-";
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -65,17 +92,11 @@ namespace Konvolucio.MJBL180509
                 FileOpen(this, files);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private void MainForm_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        /// <summary>
-        /// Open from menu
-        /// </summary>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();

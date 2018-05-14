@@ -14,18 +14,12 @@ namespace Konvolucio.MJBL180509.Data
 
     class DataImporter
     {
+        const int MaxTableRowCount = 16384;
+        const int MaxTableCoulmnCount = 1024;
 
-        const int MaxTableRowsCount = 16384;
-        const int MaxTableCoulmsCount = 16384;
-
-        //const int MaxTableRowsCount = 500;
-        //const int MaxTableCoulmsCount = 500;
-
-        public string[,] Table { get { return _table; } }
-        public int RowsCount { get; private set; }
-        public int ColumsCount { get; private set; }
-
-        private readonly string[,] _table = new string[MaxTableRowsCount, MaxTableCoulmsCount];
+        public int RowCount { get; private set; }
+        public int ColumCount { get; private set; }
+        public long LoadedTimeMs { get; private set; }
 
         enum LineParseStates
         {
@@ -34,25 +28,15 @@ namespace Konvolucio.MJBL180509.Data
             FIND_SEPARATOR,
         };
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public DataImporter()
+        public DataImporter(){  }
+
+        public string[,] CsvImport(string path)
         {
+            string[,] _table = new string[MaxTableRowCount, MaxTableCoulmnCount];
 
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        public DataTable CsvImport(string path)
-        {
-#if DEBUG
             var stopwatch = new Stopwatch();
             stopwatch.Restart();
-#endif
+
             var lines = Read(path);
             var coulmnsCount = 0;
 
@@ -78,10 +62,10 @@ namespace Konvolucio.MJBL180509.Data
                         case LineParseStates.IN_DATAFIELD:
                             {
                                 if (ch != '\"')
-                                    datafield += row[chIndex];                       
+                                    datafield += row[chIndex];
                                 if (ch == '\"')
                                 {
-                                    _table[rowIndex, coulmnIndex] = datafield; 
+                                    _table[rowIndex, coulmnIndex] = datafield;
                                     coulmnIndex++;
                                     datafield = string.Empty;
                                     state = LineParseStates.FIND_SEPARATOR;
@@ -102,25 +86,17 @@ namespace Konvolucio.MJBL180509.Data
                     }
                 }
             }
-#if DEBUG
             stopwatch.Stop();
+            LoadedTimeMs = stopwatch.ElapsedMilliseconds;
+#if DEBUG
             Debug.WriteLine("CsvImport-> Elapsed Time:" + stopwatch.ElapsedMilliseconds.ToString() + "ms");
 #endif
-            RowsCount = lines.Count;
-            ColumsCount = coulmnsCount;
-            return (ConvertToDataTable(_table, lines.Count, coulmnsCount));
+            RowCount = lines.Count;
+            ColumCount = coulmnsCount;
+            return _table;
         }
 
-        
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="rows"></param>
-        /// <param name="coulmns"></param>
-        /// <returns></returns>
-        DataTable ConvertToDataTable(string[,] source, int rows, int coulmns)
+        public DataTable ConvertToDataTable(string[,] source, int rows, int coulmns)
         {
 
 #if DEBUG
@@ -150,11 +126,6 @@ namespace Konvolucio.MJBL180509.Data
             return dt;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         List<string> Read(string path)
         {
             List<string> lines = new List<string>();
