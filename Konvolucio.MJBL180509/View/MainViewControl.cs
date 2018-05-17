@@ -3,6 +3,8 @@ namespace Konvolucio.MJBL180509
 {
     using System;
     using System.Data;
+    using System.Diagnostics;
+    using System.Drawing;
     using System.Windows.Forms;
     using Konvolucio.MJBL180509.Controls;
 
@@ -46,8 +48,23 @@ namespace Konvolucio.MJBL180509
         {
             InitializeComponent();
             knvDataGridView1.KnvDoubleBuffered(true);
+            knvDataGridView1.RowPrePaint += KnvDataGridView1_RowPrePaint;
         }
 
+        private void KnvDataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+
+            if (knvDataGridView1.Rows[e.RowIndex].Cells[0].Value == null) return;
+
+            var result = knvDataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString().ToUpper().Trim();
+
+            if (result == "KO")
+                knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+
+            if (result == "OK")
+                knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
+        }
+    
         private void knvDataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             e.Value = _table[e.RowIndex, e.ColumnIndex];

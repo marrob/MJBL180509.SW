@@ -12,10 +12,10 @@ namespace Konvolucio.MJBL180509.Controls
     {
 
         #region Events Overrides
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    PaintHandlerForBackgoroundText(e);
-        //}
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            PaintHandlerForBackgoroundText(e);
+        }
         #endregion
 
         #region Background Text
@@ -56,6 +56,18 @@ namespace Konvolucio.MJBL180509.Controls
             }
         }
         #endregion
+
+
+        private void KOmarker(DataGridViewRowPrePaintEventArgs e)
+        {
+
+            //if()
+            //        Rows[rowIndex].DefaultCellStyle.BackColor = _firstZebraColor;
+            //    else
+            //        Rows[rowIndex].DefaultCellStyle.BackColor ;
+        }
+
+
 
         #region Data Error Handler
         protected override void OnDataError(bool displayErrorDialogIfNoHandler, DataGridViewDataErrorEventArgs e)

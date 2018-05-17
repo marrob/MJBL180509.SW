@@ -86,9 +86,9 @@ namespace Konvolucio.MJBL180509
                     _mainForm.MainView.Update(table, row, column);
                     stopwatch.Stop();
 
-                    _mainForm.LoadTime = _importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
-                    _mainForm.LastModified = File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
-                    _mainForm.RowCoulmn = row.ToString() + "/" + column.ToString();
+                    _mainForm.LoadTime = "Load : " +_importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
+                    _mainForm.LastModified = "Last write : " + File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
+                    _mainForm.RowCoulmn = "Row : " + row.ToString() + "  " + "Col : " + column.ToString();
                 }
             }
 
@@ -100,8 +100,8 @@ namespace Konvolucio.MJBL180509
                     var row = _importer.RowCount;
                     var column = _importer.ColumCount;
                     _mainForm.MainView.Update(table, row, column);
-                    _mainForm.LastModified = File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
-                    _mainForm.RowCoulmn = row.ToString() + "/" + column.ToString();
+                    _mainForm.LastModified = "Last write : " + File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
+                    _mainForm.RowCoulmn = "Row : " +  row.ToString() + "  " + "Col : " + column.ToString();
                 };
 
                 if (SyncContext != null)

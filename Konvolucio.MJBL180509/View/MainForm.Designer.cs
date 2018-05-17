@@ -34,14 +34,14 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLoadTime = new System.Windows.Forms.ToolStripStatusLabel();
-            this.mainViewControl1 = new Konvolucio.MJBL180509.MainViewControl();
-            this.knvRichTextBox1 = new Konvolucio.MJBL180509.Controls.KnvRichTextBox();
             this.toolStripStatusLabelLastModify = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelRowColumn = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mainViewControl1 = new Konvolucio.MJBL180509.MainViewControl();
+            this.knvRichTextBox1 = new Konvolucio.MJBL180509.Controls.KnvRichTextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -97,10 +97,34 @@
             this.toolStripSplitButton1.Size = new System.Drawing.Size(0, 19);
             this.toolStripSplitButton1.Text = "toolStripSplitButton1";
             // 
+            // toolStripStatusLoadTime
+            // 
+            this.toolStripStatusLoadTime.Name = "toolStripStatusLoadTime";
+            this.toolStripStatusLoadTime.Size = new System.Drawing.Size(63, 19);
+            this.toolStripStatusLoadTime.Text = "Load Time";
+            // 
+            // toolStripStatusLabelLastModify
+            // 
+            this.toolStripStatusLabelLastModify.AutoToolTip = true;
+            this.toolStripStatusLabelLastModify.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabelLastModify.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.toolStripStatusLabelLastModify.Name = "toolStripStatusLabelLastModify";
+            this.toolStripStatusLabelLastModify.Size = new System.Drawing.Size(121, 19);
+            this.toolStripStatusLabelLastModify.Text = "Last write timestamp";
+            // 
+            // toolStripStatusLabelRowColumn
+            // 
+            this.toolStripStatusLabelRowColumn.AutoToolTip = true;
+            this.toolStripStatusLabelRowColumn.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
+            this.toolStripStatusLabelRowColumn.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.toolStripStatusLabelRowColumn.Name = "toolStripStatusLabelRowColumn";
+            this.toolStripStatusLabelRowColumn.Size = new System.Drawing.Size(80, 19);
+            this.toolStripStatusLabelRowColumn.Text = "Row Column";
+            // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(104, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(360, 19);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripStatusLabelVersion
@@ -111,12 +135,14 @@
             this.toolStripStatusLabelVersion.Size = new System.Drawing.Size(58, 19);
             this.toolStripStatusLabelVersion.Text = "VERSION";
             // 
-            // toolStripStatusLoadTime
+            // toolStripStatusLabel2
             // 
-            this.toolStripStatusLoadTime.Name = "toolStripStatusLoadTime";
-            this.toolStripStatusLoadTime.Size = new System.Drawing.Size(160, 19);
-            this.toolStripStatusLoadTime.Text = "CONVERT TIME /DRAW TIME";
-            this.toolStripStatusLoadTime.ToolTipText = "CONVERT TIME /DRAW TIME";
+            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.Orange;
+            this.toolStripStatusLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(103, 19);
+            this.toolStripStatusLabel2.Text = "KONVOLUCIÓ BT";
             // 
             // mainViewControl1
             // 
@@ -135,33 +161,6 @@
             this.knvRichTextBox1.Size = new System.Drawing.Size(301, 154);
             this.knvRichTextBox1.TabIndex = 2;
             this.knvRichTextBox1.Text = "";
-            // 
-            // toolStripStatusLabelLastModify
-            // 
-            this.toolStripStatusLabelLastModify.AutoToolTip = true;
-            this.toolStripStatusLabelLastModify.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabelLastModify.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.toolStripStatusLabelLastModify.Name = "toolStripStatusLabelLastModify";
-            this.toolStripStatusLabelLastModify.Size = new System.Drawing.Size(85, 19);
-            this.toolStripStatusLabelLastModify.Text = "LAST MODIFY";
-            // 
-            // toolStripStatusLabelRowColumn
-            // 
-            this.toolStripStatusLabelRowColumn.AutoToolTip = true;
-            this.toolStripStatusLabelRowColumn.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
-            this.toolStripStatusLabelRowColumn.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-            this.toolStripStatusLabelRowColumn.Name = "toolStripStatusLabelRowColumn";
-            this.toolStripStatusLabelRowColumn.Size = new System.Drawing.Size(94, 19);
-            this.toolStripStatusLabelRowColumn.Text = "ROW/COLUMN";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.Orange;
-            this.toolStripStatusLabel2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(103, 17);
-            this.toolStripStatusLabel2.Text = "KONVOLUCIÓ BT";
             // 
             // MainForm
             // 
