@@ -18,6 +18,14 @@ namespace Konvolucio.MJBL180509.Controls
         }
         #endregion
 
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+        
+            base.OnSizeChanged(e);
+            Refresh();
+        }
+
         #region Background Text
         /// <summary>
         /// Ha nincs tartalom ez a szöveg látszik.
@@ -56,18 +64,6 @@ namespace Konvolucio.MJBL180509.Controls
             }
         }
         #endregion
-
-
-        private void KOmarker(DataGridViewRowPrePaintEventArgs e)
-        {
-
-            //if()
-            //        Rows[rowIndex].DefaultCellStyle.BackColor = _firstZebraColor;
-            //    else
-            //        Rows[rowIndex].DefaultCellStyle.BackColor ;
-        }
-
-
 
         #region Data Error Handler
         protected override void OnDataError(bool displayErrorDialogIfNoHandler, DataGridViewDataErrorEventArgs e)

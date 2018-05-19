@@ -38,7 +38,7 @@
             this.knvDataGridView1.AllowUserToDeleteRows = false;
             this.knvDataGridView1.AllowUserToResizeRows = false;
             this.knvDataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.knvDataGridView1.BackgroundText = "Húzz ide  egy *mes, *typ  vagy  *csv fájlt  a megnyitásohoz.";
+            this.knvDataGridView1.BackgroundText = "Húzz ide  egy *mes, *typ  vagy  *csv fájlt  a megnyitáshoz.";
             this.knvDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.knvDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.knvDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -53,6 +53,7 @@
             this.knvDataGridView1.TabIndex = 0;
             this.knvDataGridView1.VirtualMode = true;
             this.knvDataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.knvDataGridView1_CellValueNeeded);
+            this.knvDataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.knvDataGridView1_RowPostPaint);
             // 
             // MainViewControl
             // 

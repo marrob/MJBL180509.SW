@@ -36,6 +36,10 @@ namespace Konvolucio.MJBL180509
 
         IMainViewControl MainView { get; }
 
+        ToolStripItem[] MenuBar { set; }
+
+        bool AlwaysOnTop { get; set; }
+
         //void CursorWait();
         //void CursorDefault();
     }
@@ -47,6 +51,11 @@ namespace Konvolucio.MJBL180509
         public event EventHandler<string[]> FileOpen;
 
         public IMainViewControl MainView { get { return mainViewControl1; } }
+
+        public ToolStripItem[] MenuBar
+        {
+            set { menuStrip1.Items.AddRange(value); }
+        }
 
         public string Version
         {
@@ -70,6 +79,12 @@ namespace Konvolucio.MJBL180509
         {
             get { return toolStripStatusLabelRowColumn.Text; }
             set { toolStripStatusLabelRowColumn.Text = value; }
+        }
+
+        public bool AlwaysOnTop
+        {
+            get { return this.TopMost; }
+            set { this.TopMost = value; }
         }
 
         public void StatusClear()
