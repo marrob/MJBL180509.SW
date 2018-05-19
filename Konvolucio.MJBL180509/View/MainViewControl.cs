@@ -42,9 +42,13 @@ namespace Konvolucio.MJBL180509
         /// </summary>
         public void FillContent(string[,] table, int row, int column)
         {
+            knvDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
             ResetDgvStatew();
 
             TableUpdate(table, row, column);
+
+            knvDataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
         }
 
         /// <summary>
@@ -52,6 +56,8 @@ namespace Konvolucio.MJBL180509
         /// </summary>
         public void UpdateContent(string[,] table, int row, int column)
         {
+
+            knvDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
             SaveDgvState();
 
@@ -62,6 +68,8 @@ namespace Konvolucio.MJBL180509
             /*Új elem hozzáadásakor az utolsó sorba lép a Data Gridben.. oda teszi az új elemet...*/
             if (AlwaysShowLastRecord && knvDataGridView1.RowCount > 0)
                 knvDataGridView1.FirstDisplayedScrollingRowIndex = knvDataGridView1.RowCount - 1;
+
+            knvDataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 
         }
 
@@ -94,8 +102,7 @@ namespace Konvolucio.MJBL180509
         {
             knvDataGridView1.SuspendLayout();
             knvDataGridView1.Hide();
-            knvDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
+            
             knvDataGridView1.ColumnHeadersVisible = false;
 
             _table = table;
@@ -103,15 +110,35 @@ namespace Konvolucio.MJBL180509
             knvDataGridView1.RowCount = row;
             knvDataGridView1.RowHeadersWidth = 40;
 
-            for (int i = 0; i < knvDataGridView1.ColumnCount; i++)
-                knvDataGridView1.Columns[i].HeaderCell.Value = (i + 1).ToString();
+            if (row > 4)
+            {
+                for (int i = 0; i < knvDataGridView1.ColumnCount; i++)
+                {
+                    var header = (i + 1).ToString();
+                    header += "\r\n";
+                    header += (table[0, i] != null) ? (table[0, i].ToString()) : ("");
+                    header += "\r\n";
+                    header += (table[1, i] != null) ? (table[1, i].ToString()) : ("");
+                    header += "\r\n";
+                    header += (table[2, i] != null) ? (table[2, i].ToString()) : ("");
+                    header += "\r\n";
+                    header += (table[3, i] != null) ? (table[3, i].ToString()) : ("");
+                    knvDataGridView1.Columns[i].HeaderCell.Value = header;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < knvDataGridView1.ColumnCount; i++)
+                    knvDataGridView1.Columns[i].HeaderCell.Value = (i + 1).ToString();
+            }
+
+            foreach (DataGridViewColumn col in knvDataGridView1.Columns)
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             foreach (DataGridViewColumn dgvcolumn in knvDataGridView1.Columns)
                 dgvcolumn.SortMode = DataGridViewColumnSortMode.NotSortable;
 
             knvDataGridView1.ColumnHeadersVisible = true;
-
-            knvDataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
 
             knvDataGridView1.Show();
             knvDataGridView1.ResumeLayout();

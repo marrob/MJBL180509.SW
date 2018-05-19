@@ -130,10 +130,12 @@
       - Always Show Last Record funkció
       - View Menu
       - Help Menu
+      - rözgzített fejléc
   2. javítások:
      - fájl tartalom módoístását követően a scrollbárok nem reszetelődnek,
      - ha nem "OK"  és nem  "KO" az első oszlop, akkor fehér,
      - sorok indexelése,
-     - az első mező indexe 0 helyett 1.</value>
+     - az első mező indexe 0 helyett 1.
+     - mezők fejléce középre igzaízott</value>
   </data>
 </root>
