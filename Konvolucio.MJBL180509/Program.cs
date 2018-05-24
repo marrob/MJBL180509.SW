@@ -41,7 +41,7 @@ namespace Konvolucio.MJBL180509
             _mainForm.FileOpen += MainForm_FileOpen;
             _mainForm.Shown += MainForm_Shown;
             _mainForm.Version = Application.ProductVersion;
-            _mainForm.Text = AppConstants.SoftwareTitle;
+            _mainForm.Text = AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
 
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
@@ -119,14 +119,14 @@ namespace Konvolucio.MJBL180509
                 _mainForm.StatusClear();
                 _fileWatcher.Path = dir;
                 _fileWatcher.Filter = name;
-                _mainForm.Text = name + " - " + AppConstants.SoftwareTitle;
+                _mainForm.Text = name + " - " + AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
 
 
                 _fileWatcher.EnableRaisingEvents = true;
 
                 var table = _importer.CsvImport(path);
-                var row = _importer.RowCount;
-                var column = _importer.ColumCount;
+                var row = _importer.GetRowCount;
+                var column = _importer.GetColumCount;
                 _mainForm.MainView.FillContent(table, row, column);
                 stopwatch.Stop();
 
@@ -147,8 +147,8 @@ namespace Konvolucio.MJBL180509
                 stopwatch.Restart();
 
                 var table = _importer.CsvImport(path);
-                var row = _importer.RowCount;
-                var column = _importer.ColumCount;
+                var row = _importer.GetRowCount;
+                var column = _importer.GetColumCount;
                 _mainForm.MainView.UpdateContent(table, row, column);
 
                 _mainForm.LoadTime = "Load : " + _importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";

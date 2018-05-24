@@ -11,14 +11,11 @@ namespace Konvolucio.MJBL180509.Data
     using System.Data;
     using System.Diagnostics;
 
-
     class DataImporter
     {
-        const int MaxTableRowCount = 16384;
-        const int MaxTableCoulmnCount = 1024;
 
-        public int RowCount { get; private set; }
-        public int ColumCount { get; private set; }
+        public int GetRowCount { get; private set; }
+        public int GetColumCount { get; private set; }
         public long LoadedTimeMs { get; private set; }
 
         enum LineParseStates
@@ -28,16 +25,72 @@ namespace Konvolucio.MJBL180509.Data
             FIND_SEPARATOR,
         };
 
+        /// <summary>
+        /// Konstructor
+        /// </summary>
         public DataImporter(){  }
 
-        public string[,] CsvImport(string path)
+        /// <summary>
+        /// Sorok száma
+        /// </summary>
+        private int RowCount(List<string> lines)
         {
-            string[,] _table = new string[MaxTableRowCount, MaxTableCoulmnCount];
+            return lines.Count;
+        }
 
-            var stopwatch = new Stopwatch();
-            stopwatch.Restart();
+        /// <summary>
+        /// Visszadja a használt mezők számát.
+        /// </summary>
+        private int ColumnCount(List<string> lines)
+        {
+            var coulmnsCount = 0;
+            for (int rowIndex = 0; rowIndex < lines.Count; rowIndex++)
+            {
+                int coulmnIndex = 0;
+                var row = lines[rowIndex];
+                LineParseStates state = LineParseStates.FIND_DATAFIELD_START_ESCAPE;
 
-            var lines = Read(path);
+                for (int chIndex = 0; chIndex < row.Length; chIndex++)
+                {
+                    char ch = row[chIndex];
+                    switch (state)
+                    {
+                        case LineParseStates.FIND_DATAFIELD_START_ESCAPE:
+                            {
+                                if (ch == '\"')
+                                    state = LineParseStates.IN_DATAFIELD;
+                                break;
+                            };
+
+                        case LineParseStates.IN_DATAFIELD:
+                            {
+                                if (ch == '\"')
+                                {
+                                    coulmnIndex++;
+                                    state = LineParseStates.FIND_SEPARATOR;
+
+                                    if (coulmnIndex > coulmnsCount)
+                                        coulmnsCount = coulmnIndex;
+                                }
+                                break;
+                            }
+                        case LineParseStates.FIND_SEPARATOR:
+                            {
+                                if (ch == ',')
+                                    state = LineParseStates.FIND_DATAFIELD_START_ESCAPE;
+                                break;
+                            }
+                    }
+                }
+            }
+            return coulmnsCount;
+        }
+
+        /// <summary>
+        /// Feldoglogzza CSV fájlt
+        /// </summary>
+        public void Parser(List<string> lines, ref string[,] table)
+        {
             var coulmnsCount = 0;
 
             for (int rowIndex = 0; rowIndex < lines.Count; rowIndex++)
@@ -65,7 +118,7 @@ namespace Konvolucio.MJBL180509.Data
                                     datafield += row[chIndex];
                                 if (ch == '\"')
                                 {
-                                    _table[rowIndex, coulmnIndex] = datafield;
+                                    table[rowIndex, coulmnIndex] = datafield;
                                     coulmnIndex++;
                                     datafield = string.Empty;
                                     state = LineParseStates.FIND_SEPARATOR;
@@ -86,16 +139,45 @@ namespace Konvolucio.MJBL180509.Data
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// CSV Importálás
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+
+        public string[,] CsvImport(string path)
+        {
+            /*--- Stopper Start ---*/
+            var stopwatch = new Stopwatch();
+            stopwatch.Restart();
+
+            /*--- All read in  ---*/
+            var lines = Read(path);
+
+            /*--- Get current row and coulmn counts ---*/
+            GetRowCount = RowCount(lines);
+            GetColumCount = ColumnCount(lines);
+
+            /*--- array allocation ---*/
+            string[,] table = new string[GetRowCount, GetColumCount];
+
+            /*--- parsing... ---*/
+            Parser(lines, ref table);
+
+
             stopwatch.Stop();
             LoadedTimeMs = stopwatch.ElapsedMilliseconds;
 #if DEBUG
             Debug.WriteLine("CsvImport-> Elapsed Time:" + stopwatch.ElapsedMilliseconds.ToString() + "ms");
 #endif
-            RowCount = lines.Count;
-            ColumCount = coulmnsCount;
-            return _table;
+            return table;
         }
 
+        /// <summary>
+        /// To DataTable
+        /// </summary>
         public DataTable ConvertToDataTable(string[,] source, int rows, int coulmns)
         {
 
