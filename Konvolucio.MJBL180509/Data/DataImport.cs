@@ -11,12 +11,8 @@ namespace Konvolucio.MJBL180509.Data
     using System.Data;
     using System.Diagnostics;
 
-
     class DataImporter
     {
-        //const int MaxTableRowCount = 16384;
-        //const int MaxTableCoulmnCount = 1024;
-
 
         public int GetRowCount { get; private set; }
         public int GetColumCount { get; private set; }
@@ -93,8 +89,6 @@ namespace Konvolucio.MJBL180509.Data
         /// <summary>
         /// Feldoglogzza CSV fájlt
         /// </summary>
-        /// <param name="lines"></param>
-        /// <param name="table"></param>
         public void Parser(List<string> lines, ref string[,] table)
         {
             var coulmnsCount = 0;
@@ -166,10 +160,11 @@ namespace Konvolucio.MJBL180509.Data
             GetRowCount = RowCount(lines);
             GetColumCount = ColumnCount(lines);
 
+            /*--- array allocation ---*/
             string[,] table = new string[GetRowCount, GetColumCount];
 
+            /*--- parsing... ---*/
             Parser(lines, ref table);
-
 
 
             stopwatch.Stop();
@@ -180,6 +175,9 @@ namespace Konvolucio.MJBL180509.Data
             return table;
         }
 
+        /// <summary>
+        /// To DataTable
+        /// </summary>
         public DataTable ConvertToDataTable(string[,] source, int rows, int coulmns)
         {
 
