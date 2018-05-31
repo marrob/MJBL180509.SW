@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Controls\RichTextBox\RichTextBoxExtensions.cs" />
     <Compile Include="Data\DataImport.cs" />
+    <Compile Include="Data\ImportResult.cs" />
     <Compile Include="View\HowIsWorkingForm.cs">
       <SubType>Form</SubType>
     </Compile>

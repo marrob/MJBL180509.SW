@@ -102,8 +102,9 @@ namespace Konvolucio.MJBL180509
         {
             knvDataGridView1.SuspendLayout();
             knvDataGridView1.Hide();
-            
+
             knvDataGridView1.ColumnHeadersVisible = false;
+
 
             _table = table;
             knvDataGridView1.ColumnCount = column;

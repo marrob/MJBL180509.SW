@@ -120,19 +120,15 @@ namespace Konvolucio.MJBL180509
                 _fileWatcher.Path = dir;
                 _fileWatcher.Filter = name;
                 _mainForm.Text = name + " - " + AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
-
-
                 _fileWatcher.EnableRaisingEvents = true;
 
-                var table = _importer.CsvImport(path);
-                var row = _importer.GetRowCount;
-                var column = _importer.GetColumCount;
-                _mainForm.MainView.FillContent(table, row, column);
+                var imported = _importer.CsvFileImport(path);
+                _mainForm.MainView.FillContent(imported.Table, imported.RowCount, imported.ColumCount);
                 stopwatch.Stop();
 
-                _mainForm.LoadTime = "Load : " + _importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
+                _mainForm.LoadTime = "Load : " + imported.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
                 _mainForm.LastModified = "Last write : " + File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
-                _mainForm.RowCoulmn = "Row : " + row.ToString() + "  " + "Col : " + column.ToString();
+                _mainForm.RowCoulmn = "Row : " +  imported.RowCount.ToString() + "  " + "Col : " + imported.ColumCount.ToString();
             }
         }
 
@@ -146,14 +142,14 @@ namespace Konvolucio.MJBL180509
                 var stopwatch = new Stopwatch();
                 stopwatch.Restart();
 
-                var table = _importer.CsvImport(path);
-                var row = _importer.GetRowCount;
-                var column = _importer.GetColumCount;
-                _mainForm.MainView.UpdateContent(table, row, column);
+                var imported = _importer.CsvFileImport(path);
+                _mainForm.MainView.UpdateContent(imported.Table, imported.RowCount, imported.ColumCount);
 
-                _mainForm.LoadTime = "Load : " + _importer.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
+                stopwatch.Stop();
+
+                _mainForm.LoadTime = "Load : " + imported.LoadedTimeMs.ToString() + "ms/" + stopwatch.ElapsedMilliseconds.ToString() + "ms";
                 _mainForm.LastModified = "Last write : " + File.GetLastWriteTime(path).ToString(AppConstants.GenericTimestampFormat);
-                _mainForm.RowCoulmn = "Row : " + row.ToString() + "  " + "Col : " + column.ToString();
+                _mainForm.RowCoulmn = "Row : " + imported.RowCount.ToString() + "  " + "Col : " + imported.ColumCount.ToString();
             };
 
             if (SyncContext != null)

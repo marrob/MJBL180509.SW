@@ -14,16 +14,13 @@ namespace Konvolucio.MJBL180509.Data
     class DataImporter
     {
 
-        public int GetRowCount { get; private set; }
-        public int GetColumCount { get; private set; }
-        public long LoadedTimeMs { get; private set; }
-
         enum LineParseStates
         {
             FIND_DATAFIELD_START_ESCAPE,
             IN_DATAFIELD,
             FIND_SEPARATOR,
         };
+
 
         /// <summary>
         /// Konstructor
@@ -33,7 +30,7 @@ namespace Konvolucio.MJBL180509.Data
         /// <summary>
         /// Sorok száma
         /// </summary>
-        private int RowCount(List<string> lines)
+        private int CalcRowCount(List<string> lines)
         {
             return lines.Count;
         }
@@ -41,7 +38,7 @@ namespace Konvolucio.MJBL180509.Data
         /// <summary>
         /// Visszadja a használt mezők számát.
         /// </summary>
-        private int ColumnCount(List<string> lines)
+        private int CalcColumnCount(List<string> lines)
         {
             var coulmnsCount = 0;
             for (int rowIndex = 0; rowIndex < lines.Count; rowIndex++)
@@ -147,8 +144,9 @@ namespace Konvolucio.MJBL180509.Data
         /// <param name="path"></param>
         /// <returns></returns>
 
-        public string[,] CsvImport(string path)
+        public ImportResult CsvFileImport(string path)
         {
+
             /*--- Stopper Start ---*/
             var stopwatch = new Stopwatch();
             stopwatch.Restart();
@@ -157,22 +155,23 @@ namespace Konvolucio.MJBL180509.Data
             var lines = Read(path);
 
             /*--- Get current row and coulmn counts ---*/
-            GetRowCount = RowCount(lines);
-            GetColumCount = ColumnCount(lines);
+            var rows = CalcRowCount(lines);
+            var columns = CalcColumnCount(lines);
 
             /*--- array allocation ---*/
-            string[,] table = new string[GetRowCount, GetColumCount];
+            string[,] table = new string[rows, columns];
 
             /*--- parsing... ---*/
             Parser(lines, ref table);
 
-
+            /*--- Stopper stop ---*/
             stopwatch.Stop();
-            LoadedTimeMs = stopwatch.ElapsedMilliseconds;
 #if DEBUG
             Debug.WriteLine("CsvImport-> Elapsed Time:" + stopwatch.ElapsedMilliseconds.ToString() + "ms");
 #endif
-            return table;
+            /* --- Create Result ---*/
+           return new ImportResult(rows, columns, stopwatch.ElapsedMilliseconds, table);
+
         }
 
         /// <summary>
