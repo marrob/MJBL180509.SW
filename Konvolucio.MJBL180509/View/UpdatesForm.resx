@@ -136,6 +136,16 @@
      - ha nem "OK"  és nem  "KO" az első oszlop, akkor fehér,
      - sorok indexelése,
      - az első mező indexe 0 helyett 1.
-     - mezők fejléce középre igzaízott</value>
+     - mezők fejléce középre igzaízott
+
+/*---*/
+1.0.0.4
+1. új funkciók:
+ - View-&gt;Columns make Autosize: A _látható_ oszlopok szélességét a tartalomhoz igazítja
+
+2. javítások:
+  - file frissítési javítás ami crash-t okozhatott.
+  - memória foglalás optimalizálása
+  - maximális oszloszopszám 655db</value>
   </data>
 </root>

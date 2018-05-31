@@ -34,15 +34,39 @@
         }
 
         [Test, Order(1)]
-        public void BigTable()
+        public void MaxCoulmnsTable()
         {
-            int maxcolumns = 600;
-            int maxrows = 10000;
+            CreateVectorTable(10, 650, TesFilesDirectory + @"\MaxCoulmnsTable.mes");
+        }
 
-            string path = TesFilesDirectory + @"\BigTable.mes";
+        [Test, Order(1)]
+        public void MaxTooMuchCoulmnsTable()
+        {
+            CreateVectorTable(10, 700, TesFilesDirectory + @"\TooMuchCoulmnsTable.mes");
+        }
 
-            string[] lines = new string[maxrows + 4];
+        [Test, Order(1)]
+        public void MaxRowsTable()
+        {
+            CreateVectorTable(30000, 1, TesFilesDirectory + @"\MaxRowsTable.mes");
+        }
 
+        [Test, Order(1)]
+        public void RowsTooMuch()
+        {
+            CreateVectorTable( 5000000, 1, TesFilesDirectory + @"\TooMuchRowsTable.mes");
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        /// <param name="path"></param>
+        private void CreateVectorTable(int rows, int columns, string path)
+        {
+            string[] lines = new string[rows + 4];
 
             Random rnd = new Random();
 
@@ -55,19 +79,19 @@
             /*Unit*/
             lines[3] += "\"\",\"\",\"\",\"\",\"\"";
 
-            for (int col = 0; col < maxcolumns; col++)
-                lines[0] += ",\"" + "Step_" + col.ToString() +  "\"";
+            for (int c = 0; c < columns; c++)
+                lines[0] += ",\"" + "Step_" + c.ToString() + "\"";
 
-            for (int col = 0; col < maxcolumns; col++)
+            for (int c = 0; c < columns; c++)
                 lines[1] += ",\"" + "1" + "\"";
 
-            for (int col = 0; col < maxcolumns; col++)
+            for (int c = 0; c < columns; c++)
                 lines[2] += ",\"" + "100" + "\"";
 
-            for (int col = 0; col < maxcolumns; col++)
+            for (int c = 0; c < columns; c++)
                 lines[3] += ",\"" + "V" + "\"";
 
-            for (int row = 4; row < maxrows+4; row++)
+            for (int row = 4; row < rows + 4; row++)
             {
                 var datarow = string.Empty;
                 datarow += "\"OK";                        /*Status*/
@@ -77,18 +101,18 @@
                 datarow += "\",\"2";                      /*ReplaceTime*/
                 datarow += "\"";
 
-                for (int col = 0; col < maxcolumns; col++)
+                for (int c = 0; c < columns; c++)
                     datarow += ",\"" + (rnd.NextDouble() * 100 + 1).ToString() + "\"";
 
-                lines[row] = datarow; 
-               
+                lines[row] = datarow;
             }
-    
+
             if (File.Exists(path))
                 File.Delete(path);
 
             File.WriteAllLines(path, lines);
         }
+
 
         [TearDown]
         public void Clean()

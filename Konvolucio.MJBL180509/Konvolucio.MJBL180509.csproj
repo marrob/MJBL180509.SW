@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConstants.cs" />
+    <Compile Include="Commands\ColumnAutosizeCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Commands\UpdatesCommands.cs">
       <SubType>Component</SubType>
     </Compile>

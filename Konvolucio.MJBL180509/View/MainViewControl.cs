@@ -13,6 +13,7 @@ namespace Konvolucio.MJBL180509
         void FillContent(string[,] table, int row, int column);
         void UpdateContent(string[,] table, int row, int column);
         bool AlwaysShowLastRecord { get; set; }
+        void CoulmnAutosize();
     }
 
     public partial class MainViewControl : UserControl, IMainViewControl
@@ -21,11 +22,14 @@ namespace Konvolucio.MJBL180509
         public  bool AlwaysShowLastRecord { get; set; }
 
         string[,] _table;
+        int _rows;
+        int _coulmns;
 
         int _saveFirstCoulmnDisplayCoulmn = 0;
         int _saveCoulmnIndex = 0;
         int _saveFirstDisplayRow = 0;
         int _saveRowIndex = 0;
+
 
         /// <summary>
         /// Constructor
@@ -107,9 +111,12 @@ namespace Konvolucio.MJBL180509
 
 
             _table = table;
+            _rows = row;
+            _coulmns = column;
+
             knvDataGridView1.ColumnCount = column;
             knvDataGridView1.RowCount = row;
-            knvDataGridView1.RowHeadersWidth = 40;
+            knvDataGridView1.RowHeadersWidth = 50;
 
             if (row > 4)
             {
@@ -199,6 +206,13 @@ namespace Konvolucio.MJBL180509
         /// </summary>
         private void knvDataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
+            /*
+             * Stabiltiás javítás
+             * Egyszer frissít egy nulla tartamú töböt is ami crash-hez vazthet
+             */
+            if (_rows == 0 || _coulmns == 0)
+                return;
+
             e.Value = _table[e.RowIndex, e.ColumnIndex];
         }
 
@@ -219,6 +233,14 @@ namespace Konvolucio.MJBL180509
 
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CoulmnAutosize()
+        {
+            knvDataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
         }
     }
 }

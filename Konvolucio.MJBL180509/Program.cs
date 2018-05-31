@@ -61,7 +61,8 @@ namespace Konvolucio.MJBL180509
                  new ToolStripItem[]
                  {
                     new Commands.AlwaysOnTopCommand(_mainForm),
-                    new Commands.AlwaysShowLastRecordCommand(_mainForm.MainView)
+                    new Commands.AlwaysShowLastRecordCommand(_mainForm.MainView),
+                    new Commands.ColumnAutosizeCommand(_mainForm.MainView)
                  });
 
             var helpMenu = new ToolStripMenuItem("Help");
