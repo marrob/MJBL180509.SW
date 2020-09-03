@@ -7,51 +7,51 @@
     using System.Text;
     using System.Threading.Tasks;
     using Konvolucio.MJBL180509.Data;
-    using NUnit.Framework;
+   // using NUnit.Framework;
     using System.Data;
     using System.IO;
 
-    [TestFixture]
+  //  [TestFixture]
     class CsvParser
     {
         const string TesFilesDirectory = @"D:\@@@!ProjectS\MJBL180509\GoldMesFiles\";
 
-        [SetUp]
+  //      [SetUp]
         public void SetUpV2()
         {
 
         }
 
-        [Test, Order(1)]
+  //      [Test, Order(1)]
         public void ImportEmptyFile()
         {
             var path = TesFilesDirectory + "0000_Empty.mes";
             var importer = new DataImporter();
             var imported =  importer.CsvFileImport(path);
 
-            Assert.AreEqual(0, imported.RowCount);
-            Assert.AreEqual(0, imported.ColumCount);
+            //Assert.AreEqual(0, imported.RowCount);
+            //Assert.AreEqual(0, imported.ColumCount);
         }
 
-        [Test, Order(1)]
+        //[Test, Order(1)]
         public void MaxCoulmnsTable()
         {
             CreateVectorTable(10, 650, TesFilesDirectory + @"\MaxCoulmnsTable.mes");
         }
 
-        [Test, Order(1)]
+        //[Test, Order(1)]
         public void MaxTooMuchCoulmnsTable()
         {
             CreateVectorTable(10, 700, TesFilesDirectory + @"\TooMuchCoulmnsTable.mes");
         }
 
-        [Test, Order(1)]
+        //[Test, Order(1)]
         public void MaxRowsTable()
         {
             CreateVectorTable(30000, 1, TesFilesDirectory + @"\MaxRowsTable.mes");
         }
 
-        [Test, Order(1)]
+        //[Test, Order(1)]
         public void RowsTooMuch()
         {
             CreateVectorTable( 5000000, 1, TesFilesDirectory + @"\TooMuchRowsTable.mes");
@@ -114,7 +114,7 @@
         }
 
 
-        [TearDown]
+        //[TearDown]
         public void Clean()
         {
 
