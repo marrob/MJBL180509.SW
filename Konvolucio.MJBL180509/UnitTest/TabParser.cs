@@ -12,7 +12,7 @@
     using System.IO;
 
     [TestFixture]
-    class CsvParser
+    class TabParser
     {
         const string TesFilesDirectory = @"d:\@@@!ProjectS\KonvolucioApp\MJBL180509.SW\GoldMesFiles\";
 
@@ -22,11 +22,11 @@
 
         }
 
-        [Test, Order(1)]
+        [Test]
         public void ImportEmptyFile()
         {
-            var path = TesFilesDirectory + "csv_0000_Empty.mes";
-            var importer = new CsvFileImporter();
+            var path = TesFilesDirectory + "tab_0000_Empty.mes";
+            var importer = new TabDelimitedFileImporter();
             var imported =  importer.FileImport(path);
 
             Assert.AreEqual(0, imported.RowCount);
@@ -34,27 +34,39 @@
         }
 
         [Test, Order(1)]
+        public void ImportColumn()
+        {
+            var path = TesFilesDirectory + "tab_Columns_TabParser.mes";
+            var importer = new TabDelimitedFileImporter();
+            var imported = importer.FileImport(path);
+
+            Assert.AreEqual(3, imported.RowCount);
+            Assert.AreEqual(6, imported.ColumCount);
+        }
+
+
+        [Test, Order(1)]
         public void MaxCoulmnsTable()
         {
-            CreateVectorTable(10, 650, TesFilesDirectory + @"\csv_MaxCoulmnsTable.mes");
+            CreateVectorTable(10, 650, TesFilesDirectory + @"\MaxCoulmnsTable.mes");
         }
 
         [Test, Order(1)]
         public void MaxTooMuchCoulmnsTable()
         {
-            CreateVectorTable(10, 700, TesFilesDirectory + @"\csv_TooMuchCoulmnsTable.mes");
+            CreateVectorTable(10, 700, TesFilesDirectory + @"\TooMuchCoulmnsTable.mes");
         }
 
         [Test, Order(1)]
         public void MaxRowsTable()
         {
-            CreateVectorTable(30000, 1, TesFilesDirectory + @"\csv_MaxRowsTable.mes");
+            CreateVectorTable(30000, 1, TesFilesDirectory + @"\MaxRowsTable.mes");
         }
 
         [Test, Order(1)]
         public void RowsTooMuch()
         {
-            CreateVectorTable( 5000000, 1, TesFilesDirectory + @"\csv_TooMuchRowsTable.mes");
+            CreateVectorTable( 5000000, 1, TesFilesDirectory + @"\TooMuchRowsTable.mes");
         }
 
 
@@ -71,7 +83,7 @@
             Random rnd = new Random();
 
             /* Name */
-            lines[0] = "\"Status\",\"DateTime\",\"ProductSerial\",\"TestTime\",\"ReplaceTime\"";
+            lines[0] = "Status\tDateTime\tProductSerial\tTestTime\tReplaceTime";
             /*Min value*/
             lines[1] += "\"\",\"\",\"\",\"\",\"\"";
             /*Max value*/

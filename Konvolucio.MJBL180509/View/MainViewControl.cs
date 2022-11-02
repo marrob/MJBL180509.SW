@@ -191,10 +191,10 @@ namespace Konvolucio.MJBL180509
 
             var result = knvDataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString().ToUpper().Trim();
 
-            if (result == "KO")
+            if (result == "KO" || result == "FAILED")
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
             else
-            if (result == "OK")
+            if (result == "OK" || result == "PASSED")
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGreen;
             else
                 knvDataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;

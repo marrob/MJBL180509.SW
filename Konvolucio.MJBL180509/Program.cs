@@ -1,15 +1,24 @@
 ﻿
+/*
+ * ToDo: 
+ * 
+ *  - Settings menüt csinálni 
+ *  - Beállíható legyen default csv vagy tabbed file
+ *  - Fixálhandó sorok száma a fejlécben állítható legyen 
+ *      Conti esetén is jó a fixált sorok száma...
+ *  - A helpert frissíteni kell.
+ *   
+ */
+
 namespace Konvolucio.MJBL180509
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using System.Diagnostics;
     using System.IO;
     using System.Security.Permissions;
     using System.Threading;
+    using Data;
 
     static class Program
     {
@@ -33,7 +42,8 @@ namespace Konvolucio.MJBL180509
     {
         IMainForm _mainForm = new MainForm();
         FileSystemWatcher _fileWatcher;
-        Data.DataImporter _importer = new Data.DataImporter();
+        //IFileImporter _importer = new Data.CsvFileImporter();
+        IFileImporter _importer = new TabDelimitedFileImporter();
         SynchronizationContext SyncContext;
 
         public App()
@@ -46,8 +56,6 @@ namespace Konvolucio.MJBL180509
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
             _fileWatcher.Changed += FileWatcher_Changed;
-
-
 
             var fileMenu = new ToolStripMenuItem("File");
             fileMenu.DropDown.Items.AddRange(
@@ -123,7 +131,7 @@ namespace Konvolucio.MJBL180509
                 _mainForm.Text = name + " - " + AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
                 _fileWatcher.EnableRaisingEvents = true;
 
-                var imported = _importer.CsvFileImport(path);
+                var imported = _importer.FileImport(path);
                 _mainForm.MainView.FillContent(imported.Table, imported.RowCount, imported.ColumCount);
                 stopwatch.Stop();
 
@@ -143,7 +151,7 @@ namespace Konvolucio.MJBL180509
                 var stopwatch = new Stopwatch();
                 stopwatch.Restart();
 
-                var imported = _importer.CsvFileImport(path);
+                var imported = _importer.FileImport(path);
                 _mainForm.MainView.UpdateContent(imported.Table, imported.RowCount, imported.ColumCount);
 
                 stopwatch.Stop();

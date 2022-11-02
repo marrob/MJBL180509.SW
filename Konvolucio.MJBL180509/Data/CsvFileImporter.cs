@@ -5,15 +5,12 @@ namespace Konvolucio.MJBL180509.Data
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Data;
     using System.Diagnostics;
 
-    class DataImporter
+    class CsvFileImporter : IFileImporter
     {
-
         enum LineParseStates
         {
             FIND_DATAFIELD_START_ESCAPE,
@@ -21,23 +18,13 @@ namespace Konvolucio.MJBL180509.Data
             FIND_SEPARATOR,
         };
 
+        public CsvFileImporter(){  }
 
-        /// <summary>
-        /// Konstructor
-        /// </summary>
-        public DataImporter(){  }
-
-        /// <summary>
-        /// Sorok száma
-        /// </summary>
         private int CalcRowCount(List<string> lines)
         {
             return lines.Count;
         }
 
-        /// <summary>
-        /// Visszadja a használt mezők számát.
-        /// </summary>
         private int CalcColumnCount(List<string> lines)
         {
             var coulmnsCount = 0;
@@ -83,9 +70,6 @@ namespace Konvolucio.MJBL180509.Data
             return coulmnsCount;
         }
 
-        /// <summary>
-        /// Feldoglogzza CSV fájlt
-        /// </summary>
         public void Parser(List<string> lines, ref string[,] table)
         {
             var coulmnsCount = 0;
@@ -137,14 +121,7 @@ namespace Konvolucio.MJBL180509.Data
                 }
             }
         }
-
-        /// <summary>
-        /// CSV Importálás
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-
-        public ImportResult CsvFileImport(string path)
+        public ImportResult FileImport(string path)
         {
 
             /*--- Stopper Start ---*/
@@ -174,9 +151,6 @@ namespace Konvolucio.MJBL180509.Data
 
         }
 
-        /// <summary>
-        /// To DataTable
-        /// </summary>
         public DataTable ConvertToDataTable(string[,] source, int rows, int coulmns)
         {
 
@@ -220,7 +194,6 @@ namespace Konvolucio.MJBL180509.Data
                 lines.Add(line);
             }
             sr.Close();
-
             return lines;
         }
     }

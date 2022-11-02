@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.4.3.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.4.3.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,10 +9,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Konvolucio.MJBL180509</RootNamespace>
     <AssemblyName>Konvolucio.MJBL180509</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,8 +83,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\RichTextBox\RichTextBoxExtensions.cs" />
-    <Compile Include="Data\DataImport.cs" />
+    <Compile Include="Data\IImporter.cs" />
+    <Compile Include="Data\TabDelimitedFileImporter.cs" />
+    <Compile Include="Data\CsvFileImporter.cs" />
     <Compile Include="Data\ImportResult.cs" />
+    <Compile Include="UnitTest\CsvParser.cs" />
     <Compile Include="View\HowIsWorkingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,7 +108,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest\CsvParser.cs" />
+    <Compile Include="UnitTest\TabParser.cs" />
     <Compile Include="View\UpdatesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,4 +156,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.4.3.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.4.3.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
 </Project>

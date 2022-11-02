@@ -159,6 +159,8 @@
  - argumentumban, az alkalmázshoz fáj kiterjesztés tárístható
 11. Fejléc tartalom létrehozása:
  - minimum 4 sort kell tartalmaznia a táblázatnak
- - az első 4 sor értékét rögizti az oszlopok fejlécében </value>
+ - az első 4 sor értékét rögizti az oszlopok fejlécében 
+
+12. Az 1.0.0.5-fejlesztés alatt áll és csak a Tab-al elválasztott fájlokat támogatja.</value>
   </data>
 </root>
