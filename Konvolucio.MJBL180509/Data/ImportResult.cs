@@ -2,12 +2,6 @@
 
 namespace Konvolucio.MJBL180509
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public class ImportResult
     {
         public int RowCount { get; private set; }

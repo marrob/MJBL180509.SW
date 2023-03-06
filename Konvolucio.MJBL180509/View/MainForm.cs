@@ -2,19 +2,11 @@
 namespace Konvolucio.MJBL180509
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
-    using System.Drawing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
-
 
     public interface IMainForm
     {
-        //event FormClosedEventHandler FormClosed;
+        event FormClosedEventHandler FormClosed;
         //event FormClosingEventHandler FormClosing;
         //event EventHandler Disposed;
 
@@ -32,6 +24,7 @@ namespace Konvolucio.MJBL180509
         string LastModified { get; set; }
         string LoadTime { get; set; }
         string RowCoulmn { get; set; }
+        string Delimiter { get; set; }
         void StatusClear();
 
         IMainViewControl MainView { get; }
@@ -81,6 +74,11 @@ namespace Konvolucio.MJBL180509
             set { toolStripStatusLabelRowColumn.Text = value; }
         }
 
+        public string Delimiter
+        {
+            get { return toolStripStatusLabelDelimiter.Text; }
+            set { toolStripStatusLabelDelimiter.Text = value;  }
+        }
         public bool AlwaysOnTop
         {
             get { return this.TopMost; }

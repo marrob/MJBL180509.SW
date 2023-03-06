@@ -40,6 +40,7 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainViewControl1 = new Konvolucio.MJBL180509.MainViewControl();
             this.knvRichTextBox1 = new Konvolucio.MJBL180509.Controls.KnvRichTextBox();
+            this.toolStripStatusLabelDelimiter = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@
             this.toolStripStatusLoadTime,
             this.toolStripStatusLabelLastModify,
             this.toolStripStatusLabelRowColumn,
+            this.toolStripStatusLabelDelimiter,
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelVersion,
             this.toolStripStatusLabel2});
@@ -80,7 +82,7 @@
             // toolStripStatusLoadTime
             // 
             this.toolStripStatusLoadTime.Name = "toolStripStatusLoadTime";
-            this.toolStripStatusLoadTime.Size = new System.Drawing.Size(63, 19);
+            this.toolStripStatusLoadTime.Size = new System.Drawing.Size(62, 19);
             this.toolStripStatusLoadTime.Text = "Load Time";
             // 
             // toolStripStatusLabelLastModify
@@ -104,7 +106,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(344, 19);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(255, 19);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // toolStripStatusLabelVersion
@@ -143,6 +145,15 @@
             this.knvRichTextBox1.TabIndex = 2;
             this.knvRichTextBox1.Text = "";
             // 
+            // toolStripStatusLabelDelimiter
+            // 
+            this.toolStripStatusLabelDelimiter.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabelDelimiter.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
+            this.toolStripStatusLabelDelimiter.Name = "toolStripStatusLabelDelimiter";
+            this.toolStripStatusLabelDelimiter.Size = new System.Drawing.Size(59, 19);
+            this.toolStripStatusLabelDelimiter.Text = "Delimiter";
+            this.toolStripStatusLabelDelimiter.ToolTipText = "Current Delimiter";
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -179,6 +190,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelLastModify;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelRowColumn;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelDelimiter;
     }
 }
 

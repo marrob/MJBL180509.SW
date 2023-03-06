@@ -1,16 +1,4 @@
-﻿
-/*
- * ToDo: 
- * 
- *  - Settings menüt csinálni 
- *  - Beállíható legyen default csv vagy tabbed file
- *  - Fixálhandó sorok száma a fejlécben állítható legyen 
- *      Conti esetén is jó a fixált sorok száma...
- *  - A helpert frissíteni kell.
- *   
- */
-
-namespace Konvolucio.MJBL180509
+﻿namespace Konvolucio.MJBL180509
 {
     using System;
     using System.Windows.Forms;
@@ -19,6 +7,7 @@ namespace Konvolucio.MJBL180509
     using System.Security.Permissions;
     using System.Threading;
     using Data;
+    using Konvolucio.MJBL180509.Properties;
 
     static class Program
     {
@@ -29,7 +18,6 @@ namespace Konvolucio.MJBL180509
             Application.SetCompatibleTextRenderingDefault(false);
             new App();
         }
-
     }
 
     public interface IApp
@@ -42,16 +30,29 @@ namespace Konvolucio.MJBL180509
     {
         IMainForm _mainForm = new MainForm();
         FileSystemWatcher _fileWatcher;
-        //IFileImporter _importer = new Data.CsvFileImporter();
-        IFileImporter _importer = new TabDelimitedFileImporter();
+        IFileImporter _importer = null;
         SynchronizationContext SyncContext;
 
         public App()
         {
             _mainForm.FileOpen += MainForm_FileOpen;
             _mainForm.Shown += MainForm_Shown;
+            _mainForm.FormClosed += MainForm_FormClosed;
             _mainForm.Version = Application.ProductVersion;
             _mainForm.Text = AppConstants.SoftwareTitle + " - " + Application.ProductVersion;
+
+            if (Settings.Default.Delimiter == "Comma")
+                _importer = new Data.CsvFileImporter();
+            else if (Settings.Default.Delimiter == "Tab")
+                _importer = new TabDelimitedFileImporter();
+            else
+            {
+                string errmsg = $"Unsuppert Delimiter {Settings.Default.Delimiter}";
+                Settings.Default.Delimiter = "Comma";
+                Settings.Default.Save();
+                throw new ApplicationException(errmsg);
+            }
+            _mainForm.Delimiter = Settings.Default.Delimiter;
 
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
@@ -61,7 +62,8 @@ namespace Konvolucio.MJBL180509
             fileMenu.DropDown.Items.AddRange(
                 new ToolStripItem[] 
                 {
-                    new Commands.FileOpenCommand(this)
+                    new Commands.FileOpenCommand(this),
+                    new Commands.OpenSettingsCommand()
                 });
 
             var viewMenu = new ToolStripMenuItem("View");
@@ -89,6 +91,11 @@ namespace Konvolucio.MJBL180509
                 };
 
             Application.Run((MainForm)_mainForm);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Default.Save();
         }
 
         /// <summary>

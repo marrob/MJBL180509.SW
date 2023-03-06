@@ -1,14 +1,8 @@
 ﻿namespace Konvolucio.MJBL180509.UnitTest
 {
-
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Konvolucio.MJBL180509.Data;
+    using Data;
     using NUnit.Framework;
-    using System.Data;
     using System.IO;
 
     [TestFixture]

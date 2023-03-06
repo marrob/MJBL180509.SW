@@ -1,12 +1,9 @@
 ﻿
 namespace Konvolucio.MJBL180509
 {
-    using System;
-    using System.Data;
-    using System.Diagnostics;
     using System.Drawing;
     using System.Windows.Forms;
-    using Konvolucio.MJBL180509.Controls;
+    using Controls;
 
     public interface IMainViewControl
     {
